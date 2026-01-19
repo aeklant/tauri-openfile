@@ -1,5 +1,5 @@
 use tauri_plugin_dialog::DialogExt;
-use tauri::AppHandle;
+use tauri::{ AppHandle, Emitter };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -14,5 +14,7 @@ pub fn run() {
 fn save_file(app: AppHandle, contents: String) {
     std::thread::spawn(move || {
         app.dialog().file().blocking_pick_file();
+
+        app.emit("file_saved", "a file has been saved");
     });
 }
