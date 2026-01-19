@@ -8,6 +8,7 @@
 
   <script>
     const invoke = window.__TAURI__.core.invoke;
+    const listen = window.__TAURI__.event.listen;
 
     async function openDialog() {
       await invoke("open_file");
@@ -17,5 +18,13 @@
       let contents = document.querySelector("#contents").value;
       await invoke("save_file", { contents });
     }
+
+    function init_listeners() {
+      listen("file_saved", data => {
+        console.log(data)
+      });
+    }
+
+    init_listeners();
   </script>
 </html>
