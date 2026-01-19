@@ -13,8 +13,10 @@ pub fn run() {
 #[tauri::command]
 fn save_file(app: AppHandle, contents: String) {
     std::thread::spawn(move || {
-        app.dialog().file().blocking_pick_file();
+        // TODO: replace unwraps
+        let file_path = app.dialog().file().blocking_save_file().unwrap().to_string();
+        std::fs::write(&file_path, contents).unwrap();
 
-        app.emit("file_saved", "a file has been saved");
+        app.emit("file_saved", &file_path);
     });
 }
