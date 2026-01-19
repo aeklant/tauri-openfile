@@ -12,5 +12,7 @@ pub fn run() {
 
 #[tauri::command]
 fn save_file(app: AppHandle, contents: String) {
-    app.dialog().file().blocking_pick_file();
+    std::thread::spawn(move || {
+        app.dialog().file().blocking_pick_file();
+    });
 }
