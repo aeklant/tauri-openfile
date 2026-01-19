@@ -1,3 +1,19 @@
 <html>
-  <h3>Open File</h3>
+  <div>
+    <button onclick="openDialog()">Open File</button>
+    <button onclick="saveDialog()">Save File</button>
+  </div>
+
+  <textarea id="contents"></textarea>
+
+  <script>
+    async function openDialog() {
+      await invoke("open_file");
+    }
+
+    async function saveDialog() {
+      let contents = document.querySelector("#contents").velue;
+      await invoke("save_file", { contents };
+    }
+  </script>
 </html>
