@@ -7,6 +7,8 @@
   <textarea id="contents"></textarea>
 
   <script>
+    const invoke = window.__TAURI__.core.invoke;
+
     async function openDialog() {
       await invoke("open_file");
     }
