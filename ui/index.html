@@ -21,6 +21,8 @@
 
     function init_listeners() {
       listen("file_saved", data => {});
+      listen("file_loaded", data => {
+        document.querySelector("#contents").value = data.payload;
       });
     }
 
