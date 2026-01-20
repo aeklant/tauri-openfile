@@ -17,6 +17,6 @@ fn save_file(app: AppHandle, contents: String) {
         let file_path = app.dialog().file().blocking_save_file().unwrap().to_string();
         std::fs::write(&file_path, contents).unwrap();
 
-        app.emit("file_saved", &file_path);
+        app.emit("file_saved", &file_path).unwrap();
     });
 }
