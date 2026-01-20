@@ -5,7 +5,7 @@ use tauri::{ AppHandle, Emitter };
 pub fn run() {
   tauri::Builder::default()
     .plugin(tauri_plugin_dialog::init())
-    .invoke_handler(tauri::generate_handler![save_file])
+    .invoke_handler(tauri::generate_handler![save_file, open_file])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -18,5 +18,16 @@ fn save_file(app: AppHandle, contents: String) {
         std::fs::write(&file_path, contents).unwrap();
 
         app.emit("file_saved", &file_path).unwrap();
+    });
+}
+
+#[tauri::command]
+fn open_file(app: AppHandle) {
+    std::thread::spawn(move || {
+        // TODO: replace unwraps
+        let file_path = app.dialog().file().blocking_pick_file().unwrap().to_string();
+        let contents = std::fs::read_to_string(file_path).unwrap();
+
+        app.emit("file_loaded", contents).unwrap();
     });
 }
